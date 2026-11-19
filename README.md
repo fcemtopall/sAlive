@@ -53,6 +53,14 @@ salive battery 20         # auto-off at 20 % battery (salive battery off to disa
 
 With sleep disabled your Mac stays fully on with the lid closed. Don't leave it running in a bag – use a timer or the battery cutoff.
 
+### Update
+
+```sh
+brew upgrade --cask fcemtopall/tap/salive
+```
+
+(Use the full name: Homebrew only upgrades third-party taps you've trusted, and naming it trusts it.)
+
 ### Uninstall
 
 ```sh
@@ -123,6 +131,14 @@ macOS 26 (Tahoe) veya üstü gerekir.
 ### ⚠️ Uyarı
 
 Uyku kapalıyken kapak kapalı olsa da Mac tamamen açık kalır. Çantada çalışır halde bırakmayın – süreli açmayı veya pil korumasını kullanın.
+
+### Güncelleme
+
+```sh
+brew upgrade --cask fcemtopall/tap/salive
+```
+
+(Tam adı kullanın: Homebrew, güvenilir olarak işaretlenmemiş üçüncü parti tap'leri güncellemez; tam adı yazmak onu güvenilir yapar.)
 
 ### Kaldırma
 

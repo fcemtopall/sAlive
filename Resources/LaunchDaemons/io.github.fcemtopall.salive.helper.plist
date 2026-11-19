@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>io.github.fcemtopall.salive.helper</string>
+	<key>BundleProgram</key>
+	<string>Contents/MacOS/sAliveHelper</string>
+	<key>AssociatedBundleIdentifiers</key>
+	<array>
+		<string>io.github.fcemtopall.salive</string>
+	</array>
+	<key>MachServices</key>
+	<dict>
+		<key>io.github.fcemtopall.salive.helper</key>
+		<true/>
+	</dict>
+	<!-- Start at boot so timers and the battery cutoff keep working after a reboot. -->
+	<key>RunAtLoad</key>
+	<true/>
+</dict>
+</plist>

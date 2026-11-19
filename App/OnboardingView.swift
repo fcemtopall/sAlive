@@ -17,7 +17,7 @@ enum OnboardingWindow {
             // update-constraints feedback loop on macOS 26. Content scrolls instead.
             hosting.sizingOptions = []
             let newWindow = NSWindow(contentViewController: hosting)
-            newWindow.setContentSize(NSSize(width: 520, height: 660))
+            newWindow.setContentSize(NSSize(width: 520, height: 500))
             newWindow.title = "sAlive"
             newWindow.styleMask = [.titled, .closable]
             newWindow.isReleasedWhenClosed = false
@@ -32,7 +32,6 @@ enum OnboardingWindow {
 struct OnboardingView: View {
     let close: () -> Void
     @EnvironmentObject private var helper: HelperManager
-    @AppStorage(Placement.defaultsKey) private var placement: Placement = .both
     @State private var showUninstallConfirm = false
 
     private let poll = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
@@ -41,7 +40,7 @@ struct OnboardingView: View {
         ScrollView {
             content
         }
-        .frame(width: 520, height: 660)
+        .frame(width: 520, height: 500)
         .onReceive(poll) { _ in
             let wasReady = helper.isReady
             helper.refresh()
@@ -89,31 +88,9 @@ struct OnboardingView: View {
                 }
             }
 
-            step(2, title: "Choose where sAlive appears",
-                 detail: "The Control Center button works on its own – the app doesn't even need to be running.") {
-                VStack(alignment: .leading, spacing: 8) {
-                    Picker("", selection: $placement) {
-                        ForEach(Placement.allCases) { Text($0.title).tag($0) }
-                    }
-                    .pickerStyle(.radioGroup)
-                    .labelsHidden()
-
-                    if placement.usesControlCenter {
-                        ControlCenterInstructions()
-                    }
-
-                    Text(placementHint)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-
-            if helper.isReady && !placement.showsMenuBar {
-                GroupBox("Controls") {
-                    MenuView(showsFooter: false)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
+            step(2, title: "Use it from the menu bar",
+                 detail: "Click the **cup icon** at the top right of your screen to keep your Mac awake, pick a timer or set the low-battery cutoff.") {
+                EmptyView()
             }
 
             Label("With sleep disabled your Mac stays fully on when the lid is closed. Don't leave it running in a bag – use a timer or the low-battery cutoff.",
@@ -132,26 +109,12 @@ struct OnboardingView: View {
                         .buttonStyle(.borderless)
                 }
                 Spacer()
-                if !placement.showsMenuBar {
-                    Button("Quit sAlive") { NSApp.terminate(nil) }
-                }
                 Button("Done", action: close)
                     .keyboardShortcut(.defaultAction)
             }
         }
         .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private var placementHint: String {
-        switch placement {
-        case .both:
-            return String(localized: "The menu bar icon is always there; the Control Center button works too once you add it.")
-        case .controlCenter:
-            return String(localized: "The menu bar icon is hidden – open sAlive again from Applications to get back to these settings.")
-        case .menuBar:
-            return String(localized: "Use the menu bar icon. If you added the Control Center button before, remove it via Control Center › Edit Controls.")
-        }
     }
 
     private func step<Content: View>(_ number: Int, title: LocalizedStringKey, detail: LocalizedStringKey,

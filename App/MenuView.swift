@@ -3,10 +3,7 @@ import SwiftUI
 struct MenuView: View {
     @EnvironmentObject private var store: StatusStore
     @EnvironmentObject private var helper: HelperManager
-    @AppStorage(Placement.defaultsKey) private var placement: Placement = .both
 
-    /// The setup window embeds this view without the Setup/Quit footer.
-    var showsFooter = true
 
     private let presets: [(LocalizedStringKey, TimeInterval?)] = [
         ("30m", 1800), ("1h", 3600), ("3h", 10800), ("8h", 28800), ("∞", nil),
@@ -33,15 +30,13 @@ struct MenuView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            if showsFooter {
-                Divider()
-                HStack {
-                    Button("Setup…") { OnboardingWindow.show() }
-                    Spacer()
-                    Button("Quit sAlive") { NSApp.terminate(nil) }
-                }
-                .buttonStyle(.borderless)
+            Divider()
+            HStack {
+                Button("Setup…") { OnboardingWindow.show() }
+                Spacer()
+                Button("Quit sAlive") { NSApp.terminate(nil) }
             }
+            .buttonStyle(.borderless)
         }
         .padding(14)
         .frame(width: 300)
@@ -125,24 +120,6 @@ struct MenuView: View {
                 }
             }
             .controlSize(.small)
-
-            Picker("Show in", selection: $placement) {
-                ForEach(Placement.allCases) { Text($0.title).tag($0) }
-            }
-            .controlSize(.small)
-
-            if placement.usesControlCenter {
-                Button {
-                    OnboardingWindow.show()
-                } label: {
-                    Label("Add the button: Control Center › Edit Controls › sAlive",
-                          systemImage: "info.circle")
-                        .font(.caption)
-                        .multilineTextAlignment(.leading)
-                }
-                .buttonStyle(.link)
-                .help("Show step-by-step instructions")
-            }
 
             Toggle("Launch at login", isOn: Binding(
                 get: { helper.launchAtLogin },

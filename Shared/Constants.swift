@@ -9,7 +9,6 @@ enum SAlive {
     static let helperMachService = "io.github.fcemtopall.salive.helper"
     static let helperPlistName = "io.github.fcemtopall.salive.helper.plist"
     static let changedNotification = "io.github.fcemtopall.salive.changed"
-    static let controlKind = "io.github.fcemtopall.salive.control"
 
     static let codeSigningRequirement =
         "anchor apple generic and certificate leaf[subject.OU] = \"\(teamID)\""

@@ -1,10 +1,8 @@
 import Foundation
 import notify
-import WidgetKit
 
-/// Mirrors the helper's state for the UI and keeps the Control Center
-/// toggle in sync whenever anything (app, control, CLI, timer, battery)
-/// changes it.
+/// Mirrors the helper's state for the UI and stays in sync whenever
+/// anything (app, CLI, timer, battery) changes it.
 @MainActor
 final class StatusStore: ObservableObject {
     static let shared = StatusStore()
@@ -24,7 +22,6 @@ final class StatusStore: ObservableObject {
         notify_register_dispatch(SAlive.changedNotification, &notifyToken, .main) { _ in
             Task { @MainActor in
                 await StatusStore.shared.refresh()
-                ControlCenter.shared.reloadControls(ofKind: SAlive.controlKind)
             }
         }
         Task { await refresh() }

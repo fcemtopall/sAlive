@@ -51,8 +51,7 @@ private final class Once: @unchecked Sendable {
     }
 }
 
-/// Thin async client for the privileged helper. Used by the app, the
-/// Control Center extension and the CLI.
+/// Thin async client for the privileged helper. Used by the app and the CLI.
 enum HelperClient {
     static func status() async throws -> KeepAwakeStatus {
         try await call { proxy, reply in proxy.getStatus(reply: reply) }

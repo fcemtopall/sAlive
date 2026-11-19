@@ -102,16 +102,6 @@
         }
       }
     },
-    "Add the button: Control Center › Edit Controls › sAlive": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Düğmeyi ekle: Denetim Merkezi › Denetimleri Düzenle › sAlive"
-          }
-        }
-      }
-    },
     "Battery is at %lld%%, at or below your %lld%% cutoff. Plug in or lower the cutoff.": {
       "localizations": {
         "tr": {
@@ -122,52 +112,12 @@
         }
       }
     },
-    "Choose where sAlive appears": {
+    "Click the **cup icon** at the top right of your screen to keep your Mac awake, pick a timer or set the low-battery cutoff.": {
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "sAlive'ın nerede görüneceğini seç"
-          }
-        }
-      }
-    },
-    "Click **Done**. Optionally drag it into the menu bar for one-click access.": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "**Bitti**'ye tıkla. İstersen tek tıkla erişmek için menü çubuğuna da sürükleyebilirsin."
-          }
-        }
-      }
-    },
-    "Click the **Control Center** icon in the menu bar (the two switches, top right).": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Menü çubuğundaki **Denetim Merkezi** simgesine tıkla (sağ üstteki iki anahtar)."
-          }
-        }
-      }
-    },
-    "Control Center only": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sadece Denetim Merkezi"
-          }
-        }
-      }
-    },
-    "Controls": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Kontroller"
+            "value": "Mac'ini uyanık tutmak, süre seçmek ya da düşük pil eşiğini ayarlamak için ekranın sağ üstündeki **fincan simgesine** tıkla."
           }
         }
       }
@@ -312,26 +262,6 @@
         }
       }
     },
-    "Menu bar & Control Center": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Menü çubuğu ve Denetim Merkezi"
-          }
-        }
-      }
-    },
-    "Menu bar only": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sadece menü çubuğu"
-          }
-        }
-      }
-    },
     "Never": {
       "localizations": {
         "tr": {
@@ -372,92 +302,12 @@
         }
       }
     },
-    "Scroll down and click **Edit Controls**.": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aşağı kaydır ve **Denetimleri Düzenle**'ye tıkla."
-          }
-        }
-      }
-    },
-    "Search for **sAlive** and click **Keep Awake** – or drag it into Control Center.": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "**sAlive** diye ara ve **Uyanık Tut**'a tıkla – ya da Denetim Merkezi'ne sürükle."
-          }
-        }
-      }
-    },
     "Setup…": {
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "Kurulum…"
-          }
-        }
-      }
-    },
-    "Show in": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Görüneceği yer"
-          }
-        }
-      }
-    },
-    "Show step-by-step instructions": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Adım adım talimatları göster"
-          }
-        }
-      }
-    },
-    "The Control Center button works on its own – the app doesn't even need to be running.": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Denetim Merkezi düğmesi tek başına çalışır – uygulamanın açık olmasına bile gerek yok."
-          }
-        }
-      }
-    },
-    "The button isn't added automatically": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Düğme otomatik olarak eklenmez"
-          }
-        }
-      }
-    },
-    "The menu bar icon is always there; the Control Center button works too once you add it.": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Menü çubuğu simgesi her zaman orada; Denetim Merkezi düğmesi de ekledikten sonra çalışır."
-          }
-        }
-      }
-    },
-    "The menu bar icon is hidden – open sAlive again from Applications to get back to these settings.": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Menü çubuğu simgesi gizli – bu ayarlara dönmek için sAlive'ı Uygulamalar'dan tekrar aç."
           }
         }
       }
@@ -522,12 +372,12 @@
         }
       }
     },
-    "Use the menu bar icon. If you added the Control Center button before, remove it via Control Center › Edit Controls.": {
+    "Use it from the menu bar": {
       "localizations": {
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Menü çubuğu simgesini kullan. Denetim Merkezi düğmesini daha önce eklediysen Denetim Merkezi › Denetimleri Düzenle'den kaldırabilirsin."
+            "value": "Menü çubuğundan kullan"
           }
         }
       }
@@ -548,16 +398,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Uyku kapalıyken Mac, kapak kapalı olsa da tamamen açık kalır. Çantada çalışır halde bırakma – süreli açmayı ya da düşük pil korumasını kullan."
-          }
-        }
-      }
-    },
-    "macOS only lets you add Control Center buttons yourself:": {
-      "localizations": {
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "macOS, Denetim Merkezi düğmelerini yalnızca senin eklemene izin verir:"
           }
         }
       }

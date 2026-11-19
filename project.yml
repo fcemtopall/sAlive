@@ -48,7 +48,6 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: io.github.fcemtopall.salive
         PRODUCT_NAME: sAlive
     dependencies:
-      - target: sAliveControl
       - target: sAliveHelper
         embed: true
         copy:
@@ -58,32 +57,6 @@ targets:
         copy:
           destination: wrapper
           subpath: Contents/Helpers
-
-  sAliveControl:
-    type: app-extension
-    platform: macOS
-    sources:
-      - ControlExtension
-      - Shared
-    info:
-      path: ControlExtension/Info.plist
-      properties:
-        CFBundleDisplayName: sAlive
-        CFBundleShortVersionString: $(MARKETING_VERSION)
-        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
-        CFBundleLocalizations: [en, tr]
-        NSExtension:
-          NSExtensionPointIdentifier: com.apple.widgetkit-extension
-    entitlements:
-      path: ControlExtension/sAliveControl.entitlements
-      properties:
-        com.apple.security.app-sandbox: true
-        com.apple.security.temporary-exception.mach-lookup.global-name:
-          - io.github.fcemtopall.salive.helper
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: io.github.fcemtopall.salive.control
-        SKIP_INSTALL: YES
 
   sAliveHelper:
     type: tool

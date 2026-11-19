@@ -8,7 +8,7 @@ final class ListenerDelegate: NSObject, NSXPCListenerDelegate {
     }
 
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection connection: NSXPCConnection) -> Bool {
-        // Only binaries signed by our team (app, Control Center extension, CLI)
+        // Only binaries signed by our team (app and CLI)
         // may talk to this root process.
         connection.setCodeSigningRequirement(SAlive.codeSigningRequirement)
         connection.exportedInterface = NSXPCInterface(with: HelperProtocol.self)

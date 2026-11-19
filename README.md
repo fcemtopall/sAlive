@@ -1,6 +1,6 @@
 # sAlive ☕️
 
-**Keep your Mac awake from Control Center – even with the lid closed.**
+**Keep your Mac awake from the menu bar – even with the lid closed.**
 One tap instead of `sudo pmset -a disablesleep 1`.
 
 [Türkçe](#türkçe) · [English](#english)
@@ -13,11 +13,9 @@ macOS puts your Mac to sleep after a while once the display turns off or the lid
 
 sAlive turns that into a button:
 
-- **Control Center toggle** – add “Keep Awake” via *Control Center › Edit Controls*
-- **Menu bar icon** – on/off, timers (30 min · 1 h · 3 h · 8 h · ∞), status
+- **Menu bar icon** – one click on/off, timers (30 min · 1 h · 3 h · 8 h · ∞), status
 - **Auto-off timer** – survives app quit and reboot
 - **Low-battery cutoff** – turns itself off at 10 / 20 / 30 / 50 % on battery
-- **You choose where it lives** – menu bar & Control Center, Control Center only (no menu bar icon; the toggle works even when the app isn't running), or menu bar only
 - **CLI** – `salive on 2h`, `salive off`, `salive status`
 - **English & Turkish** – follows your system language (override per app in *System Settings › General › Language & Region*)
 - **No password prompts, no sudoers hacks** – a small signed helper registered with Apple's `SMAppService`, which you approve once in System Settings
@@ -32,10 +30,9 @@ Or download the notarized `sAlive-x.y.z.zip` from [Releases](https://github.com/
 
 Then:
 
-1. Open **sAlive** and click **Install Helper**.
-2. macOS opens *System Settings › General › Login Items & Extensions* – enable **sAlive**.
-3. Choose where sAlive appears. For Control Center: *Control Center › Edit Controls* → search “sAlive” → add **Keep Awake** (shown as **Uyanık Tut** in Turkish).
-   With the menu bar icon hidden, open sAlive again from Applications to reach its settings.
+1. Open **sAlive** (or run `salive on`). It sets up its helper and opens *System Settings › General › Login Items & Extensions*.
+2. Turn on **sAlive** there – the one approval macOS requires. Done.
+3. Use the ☕️ icon in the menu bar.
 
 Requires macOS 26 (Tahoe) or later.
 
@@ -72,9 +69,8 @@ brew uninstall --cask salive        # add --zap to remove saved settings
 ### How it works
 
 ```
-Control Center toggle ─┐
-Menu bar app ──────────┼── XPC (code-signature checked) ──► sAliveHelper (root, launchd)
-salive CLI ────────────┘                                     └─ /usr/bin/pmset -a disablesleep 0|1
+Menu bar app ──┬── XPC (code-signature checked) ──► sAliveHelper (root, launchd)
+salive CLI ────┘                                     └─ /usr/bin/pmset -a disablesleep 0|1
 ```
 
 The helper only accepts connections from binaries signed by the same Apple Developer team, runs `pmset` with fixed arguments, and stores the timer / battery cutoff in `/Library/Application Support/sAlive/state.json`. Current state is always read from `pmset -g`, so changes made in Terminal show up too.
@@ -92,7 +88,7 @@ Forks: set your own Team ID in `project.yml` (`DEVELOPMENT_TEAM`) **and** `Share
 
 > If your checkout lives in an iCloud-synced folder (Desktop/Documents), keep DerivedData outside it – iCloud's extended attributes break code signing.
 
-Translations live in `App/Localizable.xcstrings` and `ControlExtension/Localizable.xcstrings` (edit in Xcode; new languages welcome).
+Translations live in `App/Localizable.xcstrings` (edit in Xcode; new languages welcome).
 
 Releasing (runs locally – no secrets are stored on GitHub): bump `MARKETING_VERSION` in `project.yml`, commit, then run `scripts/release.sh --publish`. It signs with your Developer ID certificate, notarizes with the `salive-notary` notarytool keychain profile, tags the version, publishes the GitHub release and updates the Homebrew tap using your `gh` login. Without `--publish` it only builds the notarized zip into `dist/`.
 
@@ -104,11 +100,9 @@ Mac'inizde ekran kapandığında ya da kapağı kapattığınızda, uyanık tutm
 
 sAlive bunu tek bir düğmeye çevirir:
 
-- **Denetim Merkezi düğmesi** – *Denetim Merkezi › Denetimleri Düzenle* üzerinden “Uyanık Tut”u ekleyin
-- **Menü çubuğu ikonu** – aç/kapat, süreli açma (30 dk · 1 sa · 3 sa · 8 sa · ∞)
+- **Menü çubuğu ikonu** – tek tıkla aç/kapat, süreli açma (30 dk · 1 sa · 3 sa · 8 sa · ∞)
 - **Otomatik kapanma** – uygulama kapansa da, bilgisayar yeniden başlasa da çalışır
 - **Düşük pil koruması** – pilde %10 / 20 / 30 / 50'ye inince kendini kapatır
-- **Nerede görüneceğini sen seçersin** – menü çubuğu ve Denetim Merkezi, sadece Denetim Merkezi (menü ikonu gizli, uygulama çalışmasa da düğme çalışır) ya da sadece menü çubuğu
 - **Terminal komutu** – `salive on 2h`, `salive off`, `salive status`
 - **Türkçe ve İngilizce** – sistem dilini izler (uygulama bazında *Sistem Ayarları › Genel › Dil ve Bölge*'den değiştirilebilir)
 - **Şifre yok, sudoers ayarı yok** – Apple'ın `SMAppService` altyapısıyla kayıtlı, imzalı küçük bir yardımcı servis; Ayarlar'dan bir kez onaylarsınız
@@ -121,10 +115,9 @@ brew install --cask fcemtopall/tap/salive
 
 Ya da [Releases](https://github.com/fcemtopall/sAlive/releases) sayfasından notarize edilmiş zip'i indirip `sAlive.app`'i `/Applications`'a sürükleyin.
 
-1. **sAlive**'ı açın, **Install Helper**'a tıklayın.
-2. Açılan *Sistem Ayarları › Genel › Giriş Öğeleri ve Uzantılar* ekranında **sAlive**'ı etkinleştirin.
-3. sAlive'ın nerede görüneceğini seçin. Denetim Merkezi için: *Denetim Merkezi › Denetimleri Düzenle* → “sAlive” arayın → **Uyanık Tut**'u ekleyin.
-   Menü ikonu gizliyse ayarlara ulaşmak için sAlive'ı Uygulamalar'dan tekrar açın.
+1. **sAlive**'ı açın (ya da `salive on` yazın). Yardımcıyı kendisi kurar ve *Sistem Ayarları › Genel › Giriş Öğeleri ve Uzantılar*'ı açar.
+2. Orada **sAlive**'ı açın – macOS'un istediği tek onay bu. Bitti.
+3. Menü çubuğundaki ☕️ simgesini kullanın.
 
 macOS 26 (Tahoe) veya üstü gerekir.
 

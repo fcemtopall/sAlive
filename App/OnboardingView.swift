@@ -17,7 +17,7 @@ enum OnboardingWindow {
             // update-constraints feedback loop on macOS 26. Content scrolls instead.
             hosting.sizingOptions = []
             let newWindow = NSWindow(contentViewController: hosting)
-            newWindow.setContentSize(NSSize(width: 520, height: 500))
+            newWindow.setContentSize(NSSize(width: 520, height: 420))
             newWindow.title = "sAlive"
             newWindow.styleMask = [.titled, .closable]
             newWindow.isReleasedWhenClosed = false
@@ -40,7 +40,7 @@ struct OnboardingView: View {
         ScrollView {
             content
         }
-        .frame(width: 520, height: 500)
+        .frame(width: 520, height: 420)
         .onReceive(poll) { _ in
             let wasReady = helper.isReady
             helper.refresh()

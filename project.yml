@@ -1,0 +1,130 @@
+name: sAlive
+
+options:
+  bundleIdPrefix: io.github.fcemtopall
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    # Forks: change DEVELOPMENT_TEAM here AND SAlive.teamID in Shared/Constants.swift
+    DEVELOPMENT_TEAM: NBADP4RFZ4
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.0"
+    ENABLE_HARDENED_RUNTIME: YES
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    DEAD_CODE_STRIPPING: YES
+
+targets:
+  sAlive:
+    type: application
+    platform: macOS
+    sources:
+      - App
+      - Shared
+      - path: Resources/LaunchDaemons/io.github.fcemtopall.salive.helper.plist
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: Contents/Library/LaunchDaemons
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: sAlive
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.utilities
+        NSHumanReadableCopyright: "MIT License"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.fcemtopall.salive
+        PRODUCT_NAME: sAlive
+    dependencies:
+      - target: sAliveControl
+      - target: sAliveHelper
+        embed: true
+        copy:
+          destination: executables
+      - target: saliveCLI
+        embed: true
+        copy:
+          destination: wrapper
+          subpath: Contents/Helpers
+
+  sAliveControl:
+    type: app-extension
+    platform: macOS
+    sources:
+      - ControlExtension
+      - Shared
+    info:
+      path: ControlExtension/Info.plist
+      properties:
+        CFBundleDisplayName: sAlive
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: ControlExtension/sAliveControl.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.temporary-exception.mach-lookup.global-name:
+          - io.github.fcemtopall.salive.helper
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.fcemtopall.salive.control
+        SKIP_INSTALL: YES
+
+  sAliveHelper:
+    type: tool
+    platform: macOS
+    sources:
+      - Helper
+      - Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.fcemtopall.salive.helper
+        PRODUCT_NAME: sAliveHelper
+        SKIP_INSTALL: YES
+        GENERATE_INFOPLIST_FILE: YES
+        CREATE_INFOPLIST_SECTION_IN_BINARY: YES
+
+  saliveCLI:
+    type: tool
+    platform: macOS
+    sources:
+      - CLI
+      - Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.fcemtopall.salive.cli
+        PRODUCT_NAME: salive
+        SKIP_INSTALL: YES
+        GENERATE_INFOPLIST_FILE: YES
+        CREATE_INFOPLIST_SECTION_IN_BINARY: YES
+
+  sAliveTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests
+      - Shared/Duration.swift
+      - Helper/Pmset.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.fcemtopall.salive.tests
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  sAlive:
+    build:
+      targets:
+        sAlive: all
+    test:
+      targets:
+        - sAliveTests

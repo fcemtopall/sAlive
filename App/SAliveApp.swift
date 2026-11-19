@@ -30,6 +30,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 // at Login Items, so all that's left is flipping one switch.
                 HelperManager.shared.beginSetup()
             }
+            #if DEBUG
+            Screenshots.runIfRequested()
+            #endif
         }
     }
 

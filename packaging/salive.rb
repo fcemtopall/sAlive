@@ -6,7 +6,7 @@ cask "salive" do
 
   url "https://github.com/fcemtopall/sAlive/releases/download/v#{version}/sAlive-#{version}.zip"
   name "sAlive"
-  desc "Keep the computer awake from Control Center, even with the lid closed"
+  desc "Keep the computer awake from the menu bar, even with the lid closed"
   homepage "https://github.com/fcemtopall/sAlive"
 
   livecheck do

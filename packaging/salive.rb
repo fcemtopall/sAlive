@@ -33,8 +33,8 @@ cask "salive" do
   zap trash: "/Library/Application Support/sAlive"
 
   caveats <<~EOS
-    Open sAlive once and allow its helper in
-      System Settings › General › Login Items & Extensions.
-    Then add “Keep Awake” via Control Center › Edit Controls, or run `salive on`.
+    Finish setup with one command (or just open sAlive from Applications):
+      salive on
+    It opens sAlive and System Settings – flip the “sAlive” switch once and you're done.
   EOS
 end

@@ -3,6 +3,10 @@
 **Keep your Mac awake from the menu bar – even with the lid closed.**
 One tap instead of `sudo pmset -a disablesleep 1`.
 
+<p align="center">
+  <img src="docs/images/menu-en.png" alt="sAlive menu bar window: Keep Awake switch, timer presets, low-battery cutoff" width="360">
+</p>
+
 [Türkçe](#türkçe) · [English](#english)
 
 ---
@@ -19,6 +23,10 @@ sAlive turns that into a button:
 - **CLI** – `salive on 2h`, `salive off`, `salive status`
 - **English & Turkish** – follows your system language (override per app in *System Settings › General › Language & Region*)
 - **No password prompts, no sudoers hacks** – a small signed helper registered with Apple's `SMAppService`, which you approve once in System Settings
+
+<p align="center">
+  <img src="docs/images/setup-en.png" alt="sAlive setup window: install the helper, then use it from the menu bar" width="520">
+</p>
 
 ### Install
 
@@ -106,6 +114,11 @@ sAlive bunu tek bir düğmeye çevirir:
 - **Terminal komutu** – `salive on 2h`, `salive off`, `salive status`
 - **Türkçe ve İngilizce** – sistem dilini izler (uygulama bazında *Sistem Ayarları › Genel › Dil ve Bölge*'den değiştirilebilir)
 - **Şifre yok, sudoers ayarı yok** – Apple'ın `SMAppService` altyapısıyla kayıtlı, imzalı küçük bir yardımcı servis; Ayarlar'dan bir kez onaylarsınız
+
+<p align="center">
+  <img src="docs/images/menu-tr.png" alt="sAlive menü çubuğu penceresi" width="320">
+  <img src="docs/images/setup-tr.png" alt="sAlive kurulum penceresi" width="460">
+</p>
 
 ### Kurulum
 

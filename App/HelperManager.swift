@@ -17,11 +17,11 @@ final class HelperManager: ObservableObject {
 
     var statusText: String {
         switch status {
-        case .enabled: return "Helper is running"
-        case .requiresApproval: return "Waiting for your approval in System Settings"
-        case .notRegistered: return "Helper is not installed"
-        case .notFound: return "Helper not found – move sAlive to /Applications"
-        @unknown default: return "Unknown helper state"
+        case .enabled: return String(localized: "Helper is running")
+        case .requiresApproval: return String(localized: "Waiting for your approval in System Settings")
+        case .notRegistered: return String(localized: "Helper is not installed")
+        case .notFound: return String(localized: "Helper not found – move sAlive to /Applications")
+        @unknown default: return String(localized: "Unknown helper state")
         }
     }
 

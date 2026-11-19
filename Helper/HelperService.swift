@@ -132,7 +132,7 @@ final class HelperService: NSObject, HelperProtocol {
         guard let threshold = state.batteryThreshold else { return nil }
         let battery = Battery.current()
         guard battery.onBattery, let percent = battery.percent, percent <= threshold else { return nil }
-        return "Battery is at \(percent)%, at or below your \(threshold)% cutoff. Plug in or lower the cutoff."
+        return HelperError.batteryLowMessage(percent: percent, threshold: threshold)
     }
 
     private func enforceBatteryThreshold() {

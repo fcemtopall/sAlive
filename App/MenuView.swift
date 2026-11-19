@@ -8,7 +8,7 @@ struct MenuView: View {
     /// The setup window embeds this view without the Setup/Quit footer.
     var showsFooter = true
 
-    private let presets: [(String, TimeInterval?)] = [
+    private let presets: [(LocalizedStringKey, TimeInterval?)] = [
         ("30m", 1800), ("1h", 3600), ("3h", 10800), ("8h", 28800), ("∞", nil),
     ]
     private let thresholds: [Int] = [0, 10, 20, 30, 50]
@@ -90,7 +90,8 @@ struct MenuView: View {
             Label(helper.statusText, systemImage: "exclamationmark.triangle.fill")
                 .font(.callout)
                 .foregroundStyle(.orange)
-            Button(helper.status == .requiresApproval ? "Open System Settings" : "Install Helper") {
+            Button(helper.status == .requiresApproval
+                   ? LocalizedStringKey("Open System Settings") : LocalizedStringKey("Install Helper")) {
                 if helper.status == .requiresApproval { helper.openSettings() } else { helper.register() }
             }
             .buttonStyle(.borderedProminent)
@@ -101,7 +102,8 @@ struct MenuView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Keep awake for").font(.caption).foregroundStyle(.secondary)
             HStack(spacing: 6) {
-                ForEach(presets, id: \.0) { preset in
+                ForEach(presets.indices, id: \.self) { index in
+                    let preset = presets[index]
                     Button(preset.0) { Task { await store.setOn(true, duration: preset.1) } }
                         .buttonStyle(.bordered)
                         .controlSize(.small)
@@ -119,7 +121,7 @@ struct MenuView: View {
                 set: { value in Task { await store.setBatteryThreshold(value == 0 ? nil : value) } }
             )) {
                 ForEach(thresholds, id: \.self) { value in
-                    Text(value == 0 ? "Never" : "\(value)%").tag(value)
+                    (value == 0 ? Text("Never") : Text("\(value)%")).tag(value)
                 }
             }
             .controlSize(.small)

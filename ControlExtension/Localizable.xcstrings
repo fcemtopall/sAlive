@@ -1,0 +1,146 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "%lldh": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld sa"
+          }
+        }
+      }
+    },
+    "%lldh %lldm": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld sa %lld dk"
+          }
+        }
+      }
+    },
+    "%lldm": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld dk"
+          }
+        }
+      }
+    },
+    "%lldm %llds": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld dk %lld sn"
+          }
+        }
+      }
+    },
+    "%llds": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld sn"
+          }
+        }
+      }
+    },
+    "Battery is at %lld%%, at or below your %lld%% cutoff. Plug in or lower the cutoff.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil %%%1$lld seviyesinde; %%%2$lld olan kapanma eşiğine ulaştı. Şarja tak ya da eşiği düşür."
+          }
+        }
+      }
+    },
+    "Helper is not reachable (%@).": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yardımcıya ulaşılamıyor (%@)."
+          }
+        }
+      }
+    },
+    "Invalid response from helper.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yardımcıdan geçersiz yanıt geldi."
+          }
+        }
+      }
+    },
+    "Keep Awake": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyanık Tut"
+          }
+        }
+      }
+    },
+    "Keep Mac Awake": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'i Uyanık Tut"
+          }
+        }
+      }
+    },
+    "Off": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapalı"
+          }
+        }
+      }
+    },
+    "On": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Açık"
+          }
+        }
+      }
+    },
+    "Prevent your Mac from sleeping, even with the lid closed.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mac'inin kapak kapalıyken bile uykuya geçmesini engeller."
+          }
+        }
+      }
+    },
+    "Turns sAlive's keep-awake mode on or off.": {
+      "localizations": {
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sAlive'ın uyanık tutma modunu açar ya da kapatır."
+          }
+        }
+      }
+    }
+  }
+}

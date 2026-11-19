@@ -21,9 +21,9 @@ enum Placement: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .both: return "Menu bar & Control Center"
-        case .controlCenter: return "Control Center only"
-        case .menuBar: return "Menu bar only"
+        case .both: return String(localized: "Menu bar & Control Center")
+        case .controlCenter: return String(localized: "Control Center only")
+        case .menuBar: return String(localized: "Menu bar only")
         }
     }
 

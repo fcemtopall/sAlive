@@ -36,8 +36,8 @@ enum DurationFormat {
     static func format(_ seconds: TimeInterval) -> String {
         let s = Int(seconds.rounded())
         let h = s / 3600, m = (s % 3600) / 60, sec = s % 60
-        if h > 0 { return m > 0 ? "\(h)h \(m)m" : "\(h)h" }
-        if m > 0 { return sec > 0 && m < 10 ? "\(m)m \(sec)s" : "\(m)m" }
-        return "\(sec)s"
+        if h > 0 { return m > 0 ? String(localized: "\(h)h \(m)m") : String(localized: "\(h)h") }
+        if m > 0 { return sec > 0 && m < 10 ? String(localized: "\(m)m \(sec)s") : String(localized: "\(m)m") }
+        return String(localized: "\(sec)s")
     }
 }

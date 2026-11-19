@@ -17,7 +17,7 @@ struct SAliveApp: App {
                 .environmentObject(HelperManager.shared)
         } label: {
             Image(systemName: store.isOn ? "cup.and.saucer.fill" : "moon.zzz")
-                .accessibilityLabel(store.isOn ? "sAlive: keeping Mac awake" : "sAlive: off")
+                .accessibilityLabel(store.isOn ? Text("sAlive: keeping Mac awake") : Text("sAlive: off"))
         }
         .menuBarExtraStyle(.window)
     }

@@ -3,11 +3,32 @@ import Foundation
 enum HelperError: LocalizedError {
     case unavailable(String)
     case failed(String)
+    case batteryLow(percent: Int, threshold: Int)
+
+    /// Wire format for errors the helper reports. The helper runs as root
+    /// without a UI language, so it sends codes and clients localize them.
+    static let batteryLowPrefix = "battery-low|"
+
+    static func batteryLowMessage(percent: Int, threshold: Int) -> String {
+        "\(batteryLowPrefix)\(percent)|\(threshold)"
+    }
+
+    static func fromHelper(_ message: String) -> HelperError {
+        if message.hasPrefix(batteryLowPrefix) {
+            let parts = message.dropFirst(batteryLowPrefix.count).split(separator: "|").compactMap { Int($0) }
+            if parts.count == 2 { return .batteryLow(percent: parts[0], threshold: parts[1]) }
+        }
+        return .failed(message)
+    }
 
     var errorDescription: String? {
         switch self {
-        case .unavailable(let message): return "Helper is not reachable (\(message))."
-        case .failed(let message): return message
+        case .unavailable(let message):
+            return String(localized: "Helper is not reachable (\(message)).")
+        case .failed(let message):
+            return message
+        case .batteryLow(let percent, let threshold):
+            return String(localized: "Battery is at \(percent)%, at or below your \(threshold)% cutoff. Plug in or lower the cutoff.")
         }
     }
 
@@ -80,11 +101,11 @@ enum HelperClient {
             }
             body(helper) { data, message in
                 if let message {
-                    finish(.failure(HelperError.failed(message)))
+                    finish(.failure(HelperError.fromHelper(message)))
                 } else if let data, let status = try? JSONDecoder().decode(KeepAwakeStatus.self, from: data) {
                     finish(.success(status))
                 } else {
-                    finish(.failure(HelperError.failed("Invalid response from helper.")))
+                    finish(.failure(HelperError.failed(String(localized: "Invalid response from helper."))))
                 }
             }
         }

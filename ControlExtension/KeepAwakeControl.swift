@@ -13,7 +13,7 @@ struct KeepAwakeControl: ControlWidget {
     var body: some ControlWidgetConfiguration {
         StaticControlConfiguration(kind: SAlive.controlKind, provider: KeepAwakeValueProvider()) { isOn in
             ControlWidgetToggle("Keep Awake", isOn: isOn, action: SetKeepAwakeIntent()) { on in
-                Label(on ? "On" : "Off", systemImage: on ? "cup.and.saucer.fill" : "moon.zzz")
+                Label(on ? LocalizedStringKey("On") : LocalizedStringKey("Off"), systemImage: on ? "cup.and.saucer.fill" : "moon.zzz")
             }
             .tint(.orange)
         }

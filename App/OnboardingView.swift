@@ -77,7 +77,8 @@ struct OnboardingView: View {
                         .foregroundStyle(helper.isReady ? .green : .secondary)
                     Spacer()
                     if !helper.isReady {
-                        Button(helper.status == .requiresApproval ? "Open System Settings" : "Install Helper") {
+                        Button(helper.status == .requiresApproval
+                               ? LocalizedStringKey("Open System Settings") : LocalizedStringKey("Install Helper")) {
                             if helper.status == .requiresApproval { helper.openSettings() } else { helper.register() }
                         }
                         .buttonStyle(.borderedProminent)
@@ -142,15 +143,15 @@ struct OnboardingView: View {
     private var placementHint: String {
         switch placement {
         case .both:
-            return "The menu bar icon is always there; the Control Center button works too once you add it."
+            return String(localized: "The menu bar icon is always there; the Control Center button works too once you add it.")
         case .controlCenter:
-            return "The menu bar icon is hidden – open sAlive again from Applications to get back to these settings."
+            return String(localized: "The menu bar icon is hidden – open sAlive again from Applications to get back to these settings.")
         case .menuBar:
-            return "Use the menu bar icon. If you added the Control Center button before, remove it via Control Center › Edit Controls."
+            return String(localized: "Use the menu bar icon. If you added the Control Center button before, remove it via Control Center › Edit Controls.")
         }
     }
 
-    private func step<Content: View>(_ number: Int, title: String, detail: LocalizedStringKey,
+    private func step<Content: View>(_ number: Int, title: LocalizedStringKey, detail: LocalizedStringKey,
                                      @ViewBuilder content: () -> Content) -> some View {
         HStack(alignment: .top, spacing: 12) {
             Text("\(number)")

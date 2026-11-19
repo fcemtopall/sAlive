@@ -1,24 +1,41 @@
 #!/usr/bin/env bash
-# Builds a Developer ID signed + notarized sAlive.zip.
+# Builds a Developer ID signed + notarized sAlive zip, and optionally publishes it.
 #
-# Requirements:
-#   - "Developer ID Application" certificate in the keychain
-#   - Notarization credentials, either:
-#       NOTARY_PROFILE=<name>   (created with `xcrun notarytool store-credentials`)
-#     or App Store Connect API key:
-#       NOTARY_KEY_PATH, NOTARY_KEY_ID, NOTARY_ISSUER
+# Everything runs locally – no secrets are stored on GitHub:
+#   - "Developer ID Application" certificate in the login keychain
+#   - notarytool keychain profile (default: salive-notary), created once with
+#       xcrun notarytool store-credentials salive-notary --key AuthKey_XXXX.p8 \
+#         --key-id XXXX --issuer <issuer-id>
+#   - `gh` logged in (only for --publish)
 #
-# Usage: scripts/release.sh            -> dist/sAlive-<version>.zip
+# Usage:
+#   scripts/release.sh             build + notarize -> dist/sAlive-<version>.zip
+#   scripts/release.sh --publish   ...then tag, create the GitHub release and
+#                                  update the Homebrew tap
 set -euo pipefail
+
+PUBLISH=false
+[[ "${1:-}" == "--publish" ]] && PUBLISH=true
 
 cd "$(dirname "$0")/.."
 ROOT="$PWD"
 # Build outside the repo: iCloud-synced folders add xattrs that break codesign.
 WORK="${WORK_DIR:-$HOME/Library/Developer/sAlive-release}"
 DIST="$ROOT/dist"
+NOTARY_PROFILE="${NOTARY_PROFILE:-salive-notary}"
+REPO="fcemtopall/sAlive"
+TAP_REPO="fcemtopall/homebrew-tap"
 TEAM_ID="$(awk '/DEVELOPMENT_TEAM:/ {print $2; exit}' project.yml)"
 VERSION="$(awk -F'"' '/MARKETING_VERSION:/ {print $2; exit}' project.yml)"
+TAG="v$VERSION"
 ZIP="$DIST/sAlive-$VERSION.zip"
+
+if $PUBLISH; then
+  [[ -z "$(git status --porcelain)" ]] || { echo "Working tree is not clean."; exit 1; }
+  if git rev-parse "$TAG" >/dev/null 2>&1 || gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+    echo "$TAG already exists – bump MARKETING_VERSION in project.yml."; exit 1
+  fi
+fi
 
 echo "==> sAlive $VERSION (team $TEAM_ID)"
 rm -rf "$WORK" && mkdir -p "$WORK" "$DIST"
@@ -30,7 +47,7 @@ xcodebuild archive \
   -scheme sAlive -configuration Release \
   -archivePath "$WORK/sAlive.xcarchive" \
   -derivedDataPath "$WORK/DerivedData" \
-  -allowProvisioningUpdates ${XCODE_AUTH_ARGS:-} \
+  -allowProvisioningUpdates \
   -quiet
 
 echo "==> Exporting with Developer ID"
@@ -47,19 +64,22 @@ xcodebuild -exportArchive \
   -archivePath "$WORK/sAlive.xcarchive" \
   -exportPath "$WORK/export" \
   -exportOptionsPlist "$WORK/ExportOptions.plist" \
-  -allowProvisioningUpdates ${XCODE_AUTH_ARGS:-}
+  -allowProvisioningUpdates \
+  -quiet
 APP="$WORK/export/sAlive.app"
 
 echo "==> Verifying signature"
 codesign --verify --deep --strict --verbose=2 "$APP"
 
-echo "==> Notarizing"
+echo "==> Notarizing (profile: $NOTARY_PROFILE)"
 ditto -c -k --keepParent "$APP" "$WORK/notarize.zip"
-if [[ -n "${NOTARY_PROFILE:-}" ]]; then
-  xcrun notarytool submit "$WORK/notarize.zip" --keychain-profile "$NOTARY_PROFILE" --wait
-else
-  xcrun notarytool submit "$WORK/notarize.zip" \
-    --key "$NOTARY_KEY_PATH" --key-id "$NOTARY_KEY_ID" --issuer "$NOTARY_ISSUER" --wait
+xcrun notarytool submit "$WORK/notarize.zip" --keychain-profile "$NOTARY_PROFILE" --wait \
+  | tee "$WORK/notarize.log"
+if ! grep -q "status: Accepted" "$WORK/notarize.log"; then
+  ID="$(awk '/^  id:/ {print $2; exit}' "$WORK/notarize.log")"
+  echo "Notarization failed. Details:"
+  [[ -n "$ID" ]] && xcrun notarytool log "$ID" --keychain-profile "$NOTARY_PROFILE"
+  exit 1
 fi
 xcrun stapler staple "$APP"
 spctl --assess --type execute --verbose=2 "$APP"
@@ -69,7 +89,24 @@ rm -f "$ZIP"
 ditto -c -k --keepParent "$APP" "$ZIP"
 SHA="$(shasum -a 256 "$ZIP" | awk '{print $1}')"
 echo "$SHA" > "$ZIP.sha256"
+echo "Built: $ZIP"
+echo "sha256: $SHA"
+
+$PUBLISH || exit 0
+
+echo "==> Tagging $TAG and publishing GitHub release"
+git tag -a "$TAG" -m "sAlive $VERSION"
+git push origin "$TAG"
+gh release create "$TAG" "$ZIP" -R "$REPO" --title "sAlive $VERSION" --generate-notes --verify-tag
+
+echo "==> Updating Homebrew tap"
+TAP_DIR="$WORK/homebrew-tap"
+gh repo clone "$TAP_REPO" "$TAP_DIR" -- --quiet
+mkdir -p "$TAP_DIR/Casks"
+sed -e "s/__VERSION__/$VERSION/" -e "s/__SHA256__/$SHA/" packaging/salive.rb > "$TAP_DIR/Casks/salive.rb"
+git -C "$TAP_DIR" add Casks/salive.rb
+git -C "$TAP_DIR" commit -m "salive $VERSION"
+git -C "$TAP_DIR" push --quiet
 
 echo
-echo "Done: $ZIP"
-echo "sha256: $SHA"
+echo "Published $TAG – users can now run: brew install --cask fcemtopall/tap/salive"

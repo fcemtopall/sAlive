@@ -86,7 +86,7 @@ Forks: set your own Team ID in `project.yml` (`DEVELOPMENT_TEAM`) **and** `Share
 
 Translations live in `App/Localizable.xcstrings` and `ControlExtension/Localizable.xcstrings` (edit in Xcode; new languages welcome).
 
-Releasing: bump `MARKETING_VERSION` in `project.yml`, push a `vX.Y.Z` tag. The workflow signs, notarizes, publishes the release and updates the Homebrew tap. Required secrets: `DEVELOPER_ID_P12_BASE64`, `DEVELOPER_ID_P12_PASSWORD`, `ASC_KEY_P8_BASE64`, `ASC_KEY_ID`, `ASC_ISSUER_ID`, `HOMEBREW_TAP_TOKEN`.
+Releasing (runs locally – no secrets are stored on GitHub): bump `MARKETING_VERSION` in `project.yml`, commit, then run `scripts/release.sh --publish`. It signs with your Developer ID certificate, notarizes with the `salive-notary` notarytool keychain profile, tags the version, publishes the GitHub release and updates the Homebrew tap using your `gh` login. Without `--publish` it only builds the notarized zip into `dist/`.
 
 ---
 

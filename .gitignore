@@ -10,3 +10,6 @@ DerivedData/
 xcuserdata/
 *.xcuserstate
 .DS_Store
+
+# Local working notes (not published)
+status.md

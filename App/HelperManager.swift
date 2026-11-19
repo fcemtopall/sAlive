@@ -46,6 +46,18 @@ final class HelperManager: ObservableObject {
         }
     }
 
+    /// Called on launch while the helper isn't approved yet.
+    func beginSetup() {
+        switch status {
+        case .notRegistered, .notFound:
+            register()
+        case .requiresApproval:
+            openSettings()
+        default:
+            break
+        }
+    }
+
     func openSettings() {
         SMAppService.openSystemSettingsLoginItems()
     }

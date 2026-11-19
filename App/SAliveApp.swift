@@ -31,6 +31,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             StatusStore.shared.start()
             if !HelperManager.shared.isReady {
                 OnboardingWindow.show()
+                // Don't make the user hunt for a button: register right away.
+                // macOS then shows its approval prompt / we open System Settings
+                // at Login Items, so all that's left is flipping one switch.
+                HelperManager.shared.beginSetup()
             } else if !Placement.current.showsMenuBar && !launchedAtLogin {
                 // No menu bar icon: opening the app is the only way to reach settings.
                 OnboardingWindow.show()

@@ -32,6 +32,47 @@ func show(_ status: KeepAwakeStatus) {
 var args = Array(CommandLine.arguments.dropFirst())
 let command = args.isEmpty ? "status" : args.removeFirst()
 
+/// First run after `brew install`: the helper isn't approved yet. Open sAlive
+/// (it registers the helper and opens System Settings), then wait for the user
+/// to flip the switch and carry on with the original command.
+func ensureHelper() async {
+    do {
+        _ = try await HelperClient.status()
+        return
+    } catch let error as HelperError where error.isUnavailable {
+        // fall through to setup
+    } catch {
+        return // helper answered; let the command report its own error
+    }
+
+    print("sAlive's helper isn't enabled yet – opening sAlive to finish setup…")
+    let open = Process()
+    open.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+    open.arguments = ["-b", SAlive.appBundleID]
+    do {
+        try open.run()
+        open.waitUntilExit()
+    } catch {}
+    guard open.terminationStatus == 0 else {
+        fail("Could not open sAlive.app. Is it installed in /Applications?")
+    }
+
+    print("Turn on “sAlive” in System Settings › General › Login Items & Extensions.")
+    print("Waiting for approval (Ctrl-C to cancel)…")
+    for _ in 0..<150 { // ~5 minutes
+        try? await Task.sleep(for: .seconds(2))
+        if (try? await HelperClient.status()) != nil {
+            print("Helper enabled ✓")
+            return
+        }
+    }
+    fail("Timed out waiting for approval. Run the command again once sAlive is allowed in System Settings.")
+}
+
+if ["on", "off", "toggle", "status", "battery"].contains(command) {
+    await ensureHelper()
+}
+
 do {
     switch command {
     case "on":

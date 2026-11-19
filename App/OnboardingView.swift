@@ -47,6 +47,9 @@ struct OnboardingView: View {
             helper.refresh()
             if !wasReady && helper.isReady {
                 Task { await StatusStore.shared.refresh() }
+                // User just approved in System Settings – come back to the front
+                // so they see the ✓ and the next step.
+                OnboardingWindow.show()
             }
         }
         .confirmationDialog("Uninstall the sAlive helper?", isPresented: $showUninstallConfirm) {

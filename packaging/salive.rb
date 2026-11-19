@@ -6,7 +6,7 @@ cask "salive" do
 
   url "https://github.com/fcemtopall/sAlive/releases/download/v#{version}/sAlive-#{version}.zip"
   name "sAlive"
-  desc "Keep your Mac awake from Control Center, even with the lid closed"
+  desc "Keep the computer awake from Control Center, even with the lid closed"
   homepage "https://github.com/fcemtopall/sAlive"
 
   livecheck do
@@ -14,16 +14,17 @@ cask "salive" do
     strategy :github_latest
   end
 
-  depends_on macos: ">= :tahoe"
+  depends_on macos: :tahoe
 
   app "sAlive.app"
   binary "#{appdir}/sAlive.app/Contents/Helpers/salive"
 
   # Never leave the Mac unable to sleep after uninstalling.
-  uninstall_preflight do
-    system_command "#{appdir}/sAlive.app/Contents/Helpers/salive",
-                   args:         ["off"],
-                   must_succeed: false
+  uninstall_preflight_steps do
+    run "/usr/bin/pmset",
+        args:         ["-a", "disablesleep", "0"],
+        sudo:         true,
+        must_succeed: false
   end
 
   uninstall launchctl: "io.github.fcemtopall.salive.helper",

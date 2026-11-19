@@ -129,6 +129,19 @@ struct MenuView: View {
             }
             .controlSize(.small)
 
+            if placement.usesControlCenter {
+                Button {
+                    OnboardingWindow.show()
+                } label: {
+                    Label("Add the button: Control Center › Edit Controls › sAlive",
+                          systemImage: "info.circle")
+                        .font(.caption)
+                        .multilineTextAlignment(.leading)
+                }
+                .buttonStyle(.link)
+                .help("Show step-by-step instructions")
+            }
+
             Toggle("Launch at login", isOn: Binding(
                 get: { helper.launchAtLogin },
                 set: { helper.setLaunchAtLogin($0) }

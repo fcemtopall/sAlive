@@ -94,6 +94,10 @@ struct OnboardingView: View {
                     .pickerStyle(.radioGroup)
                     .labelsHidden()
 
+                    if placement.usesControlCenter {
+                        ControlCenterInstructions()
+                    }
+
                     Text(placementHint)
                         .font(.callout)
                         .foregroundStyle(.secondary)
@@ -137,11 +141,10 @@ struct OnboardingView: View {
 
     private var placementHint: String {
         switch placement {
-        case .both, .controlCenter:
-            let addCC = "Open Control Center, click “Edit Controls”, search for “sAlive” and add “Keep Awake”."
-            return placement == .controlCenter
-                ? addCC + " The menu bar icon is hidden – open sAlive again from Applications to get back to these settings."
-                : addCC
+        case .both:
+            return "The menu bar icon is always there; the Control Center button works too once you add it."
+        case .controlCenter:
+            return "The menu bar icon is hidden – open sAlive again from Applications to get back to these settings."
         case .menuBar:
             return "Use the menu bar icon. If you added the Control Center button before, remove it via Control Center › Edit Controls."
         }
